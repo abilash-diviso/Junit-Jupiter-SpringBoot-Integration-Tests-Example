@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>DynamicFactoryTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">JUnitTest (Jan 10, 2019 3:44:31 PM)</a> &gt; <a href="../../index.html" class="el_group">JUnitTest</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.diviso.JunitTest</a> &gt; <span class="el_source">DynamicFactoryTest.java</span></div><h1>DynamicFactoryTest.java</h1><pre class="source lang-java linenums">package com.diviso.JunitTest;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.function.Function;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.api.DynamicContainer;
+import org.junit.jupiter.api.DynamicNode;
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.TestFactory;
+import org.junit.jupiter.api.function.ThrowingConsumer;
+
+<span class="fc" id="L20">class DynamicFactoryTest {</span>
+
+	@TestFactory
+	List&lt;String&gt; dynamicTestsWithInvalidReturnType() {
+
+<span class="fc" id="L25">		return Arrays.asList(&quot;Hello&quot;);</span>
+	}
+  
+	@TestFactory
+	Collection&lt;DynamicTest&gt; dynamicTestsFromCollection() {
+<span class="fc" id="L30">		return Arrays.asList(DynamicTest.dynamicTest(&quot;1st dynamic Test&quot;, () -&gt; assertTrue(true)),</span>
+<span class="fc" id="L31">				DynamicTest.dynamicTest(&quot;2nd Dynamic Test&quot;, () -&gt; assertEquals(4, 2 * 2)));</span>
+	}
+
+	@TestFactory
+	Iterator&lt;DynamicTest&gt; dynamicTestsFromIterator() {
+
+<span class="fc" id="L37">		return Arrays.asList(</span>
+
+<span class="fc" id="L39">				DynamicTest.dynamicTest(&quot;3rd dynamic test&quot;, () -&gt; assertTrue(true)),</span>
+<span class="fc" id="L40">				DynamicTest.dynamicTest(&quot;4th dynamic test &quot;, () -&gt; assertEquals(4, 2 * 2))</span>
+
+<span class="fc" id="L42">		).iterator();</span>
+	}
+
+	@TestFactory
+	Iterable&lt;DynamicTest&gt; dynamicTestsFromIterable() {
+
+<span class="fc" id="L48">		return Arrays.asList(</span>
+
+<span class="fc" id="L50">				DynamicTest.dynamicTest(&quot;5th dyanmic test&quot;, () -&gt; assertTrue(true)),</span>
+<span class="fc" id="L51">				DynamicTest.dynamicTest(&quot;6th dynamic test&quot;, () -&gt; assertEquals(4, 2 * 2))</span>
+
+		);
+	}
+
+	@TestFactory
+	Stream&lt;DynamicTest&gt; dynamicTestsFromStream() {
+
+<span class="fc" id="L59">		return Stream.of(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;).map(str -&gt; DynamicTest.dynamicTest(&quot;test &quot; + str, () -&gt; {</span>
+<span class="fc" id="L60">			/* .......... */}));</span>
+	}
+
+	@TestFactory
+	Stream&lt;DynamicTest&gt; dynamicTestsFromIntStream() {
+
+<span class="fc" id="L66">		return IntStream.iterate(0, n -&gt; n + 1).limit(10)</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">				.mapToObj(n -&gt; DynamicTest.dynamicTest(&quot;test &quot; + n, () -&gt; assertTrue(n % 2 == 0)));</span>
+	}
+
+	@TestFactory
+	Stream&lt;DynamicTest&gt; generateRandomNumberOfTests() {
+
+		// Generates random positive integers between 0 and 100 until
+		// a number evenly divisible by 7 is encountered.
+<span class="fc" id="L75">		Iterator&lt;Integer&gt; inputGenerator = new Iterator&lt;Integer&gt;() {</span>
+
+<span class="fc" id="L77">			Random random = new Random();</span>
+			int current;
+
+			@Override
+			public boolean hasNext() {
+
+<span class="fc" id="L83">				current = random.nextInt(100);</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">				return current % 7 != 0;</span>
+
+			}
+
+			@Override
+			public Integer next() {
+<span class="fc" id="L90">				return current;</span>
+			}
+
+		};
+
+		// Generates display names like: input:5, input:37, input:85, etc.
+<span class="fc" id="L96">		Function&lt;Integer, String&gt; displayNameGenerator = (input) -&gt; &quot;Input &quot; + input;</span>
+
+		// Executes tests based on the current input value.
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">		ThrowingConsumer&lt;Integer&gt; testExecutor = (input) -&gt; assertTrue(input % 7 != 0);</span>
+
+		// Returns a stream of dynamic tests.
+
+<span class="fc" id="L103">		return DynamicTest.stream(inputGenerator, displayNameGenerator, testExecutor);</span>
+
+	}
+
+	@TestFactory
+	Stream&lt;DynamicNode&gt; dynamicTestsWithContainers() {
+
+<span class="fc" id="L110">		return Stream</span>
+<span class="fc" id="L111">				.of(&quot;A&quot;, &quot;B&quot;,</span>
+<span class="fc" id="L112">						&quot;C&quot;)</span>
+<span class="fc" id="L113">				.map(input -&gt; DynamicContainer.dynamicContainer(&quot;Container &quot; + input,</span>
+<span class="fc" id="L114">						Stream.of(DynamicTest.dynamicTest(&quot;not null&quot;, () -&gt; assertNotNull(input)),</span>
+<span class="fc" id="L115">								DynamicContainer.dynamicContainer(&quot;properties&quot;, Stream.of(</span>
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">										DynamicTest.dynamicTest(&quot;length &gt; 0&quot;, () -&gt; assertTrue(input.length() &gt; 0)),</span>
+<span class="fc" id="L117">										DynamicTest.dynamicTest(&quot;not empty&quot;, () -&gt; assertFalse(input.isEmpty())))))));</span>
+
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>JUnitTest (Jan 10, 2019 3:44:31 PM)</div></body></html>

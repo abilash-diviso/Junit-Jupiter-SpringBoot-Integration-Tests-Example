@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ParameterizedEnumSourceTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">JUnitTest (Jan 10, 2019 3:44:31 PM)</a> &gt; <a href="../../index.html" class="el_group">JUnitTest</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.diviso.JunitTest.params</a> &gt; <span class="el_source">ParameterizedEnumSourceTest.java</span></div><h1>ParameterizedEnumSourceTest.java</h1><pre class="source lang-java linenums">package com.diviso.JunitTest.params;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.EnumSet;
+import java.util.concurrent.TimeUnit;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.EnumSource.Mode;
+
+<span class="fc" id="L13">class ParameterizedEnumSourceTest {</span>
+
+	@ParameterizedTest
+	@EnumSource(TimeUnit.class)
+	void testWithEnumSource(TimeUnit timeUnits) {
+<span class="fc" id="L18">		assertNotNull(timeUnits);</span>
+
+<span class="fc" id="L20">	}</span>
+
+	@ParameterizedTest
+	@EnumSource(value = TimeUnit.class, names = { &quot;DAYS&quot;, &quot;HOURS&quot; })
+	void testWithEnumSourceInclude(TimeUnit timeUnits) {
+
+<span class="fc" id="L26">		assertTrue(EnumSet.of(TimeUnit.DAYS, TimeUnit.HOURS).contains(timeUnits));</span>
+
+<span class="fc" id="L28">	}</span>
+
+	@ParameterizedTest
+	@EnumSource(value = TimeUnit.class, mode = Mode.EXCLUDE, names = { &quot;DAYS&quot;, &quot;HOURS&quot; })
+	void testWithEnumSourceExclude(TimeUnit timeUnits) {
+<span class="fc" id="L33">		assertFalse(EnumSet.of(TimeUnit.DAYS, TimeUnit.HOURS).contains(timeUnits));</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">		assertTrue(timeUnits.name().length() &gt; 6);</span>
+<span class="fc" id="L35">	}</span>
+
+	@ParameterizedTest
+	@EnumSource(value = TimeUnit.class, mode = Mode.MATCH_ALL, names = &quot;^(M|N).+SECONDS$&quot;)
+	void testWithEnumSourceRegex(TimeUnit timeUnit) {
+<span class="pc bpc" id="L40" title="1 of 4 branches missed.">		assertTrue(timeUnit.name().startsWith(&quot;M&quot;) || timeUnit.name().startsWith(&quot;N&quot;));</span>
+<span class="fc" id="L41">		assertTrue(timeUnit.name().endsWith(&quot;SECONDS&quot;));</span>
+
+<span class="fc" id="L43">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>JUnitTest (Jan 10, 2019 3:44:31 PM)</div></body></html>

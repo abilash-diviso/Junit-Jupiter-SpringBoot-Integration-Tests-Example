@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>StandardTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">JUnitTest (Jan 10, 2019 3:44:31 PM)</a> &gt; <a href="../../index.html" class="el_group">JUnitTest</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.diviso.JunitTest</a> &gt; <span class="el_source">StandardTest.java</span></div><h1>StandardTest.java</h1><pre class="source lang-java linenums">package com.diviso.JunitTest;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+
+@DisplayName(&quot;Standard Test Demos&quot;)
+@TestInstance(Lifecycle.PER_CLASS)
+<span class="fc" id="L17">class StandardTest {</span>
+	
+<span class="fc" id="L19">	int i=10;</span>
+
+	@Test
+	@Disabled
+	void failingTest() {
+		
+<span class="nc" id="L25">		System.out.println(&quot;Failing test &quot;+i);</span>
+<span class="nc" id="L26">		i++;</span>
+<span class="nc" id="L27">		fail(&quot;Not yet implemented&quot;);</span>
+<span class="nc" id="L28">	}</span>
+
+	@BeforeAll
+	static void initAll() {
+<span class="fc" id="L32">		System.out.println(&quot;BeforeAll&quot;);</span>
+<span class="fc" id="L33">	}</span>
+
+	@BeforeEach
+	void init() {
+<span class="fc" id="L37">		System.out.println(&quot;beforeEach&quot;);</span>
+<span class="fc" id="L38">	}</span>
+
+	@Test
+	void succeedTesting() {
+<span class="fc" id="L42">		i++;</span>
+<span class="fc" id="L43">		System.out.println(&quot;Suceesding test &quot;+i);</span>
+<span class="fc" id="L44">	}</span>
+
+	@Test
+	@Disabled(&quot;For Demonstration purpose &quot;)
+	void skippedTest() {
+<span class="nc" id="L49">		System.out.println(&quot;disabled or skipped test &quot;);</span>
+
+<span class="nc" id="L51">	}</span>
+
+	@AfterAll
+	static void tearDownAll() {
+<span class="fc" id="L55">		System.out.println(&quot;After all&quot;);</span>
+<span class="fc" id="L56">	}</span>
+
+	@AfterEach
+	void tearDown() {
+<span class="fc" id="L60">		System.out.println(&quot;After each &quot;);</span>
+<span class="fc" id="L61">	}</span>
+
+	@Test
+	@DisplayName(&quot;Custom test name containing spaces&quot;)
+	void testWithDisplayNameContainingSpces() {
+<span class="fc" id="L66">		i++;</span>
+<span class="fc" id="L67">		System.out.println(&quot;Custom test name containing spaces &quot;+i);</span>
+<span class="fc" id="L68">	}</span>
+	
+	@Test
+	@DisplayName(&quot;Custom test name containing spcial chars ╯°□°）╯ &quot;)
+	void testWithDisplayNameContainingSpecialChars() {
+<span class="fc" id="L73">		i++; </span>
+<span class="fc" id="L74">		System.out.println(&quot;Custom test name containing spcial chars &quot;+i);</span>
+<span class="fc" id="L75">	}</span>
+	@Test
+	@DisplayName(&quot;Custom test name containing Emojis 😱&quot;)
+	void testWithDisplayNameContainingEmojis() {
+<span class="fc" id="L79">		i++;</span>
+<span class="fc" id="L80">		System.out.println(&quot;Custom test name containing spaces &quot;+i);</span>
+<span class="fc" id="L81">	}</span>
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>JUnitTest (Jan 10, 2019 3:44:31 PM)</div></body></html>

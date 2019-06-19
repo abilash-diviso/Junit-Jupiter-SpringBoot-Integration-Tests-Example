@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ParameterizedCustomAggregatorsAggregatedWithTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">JUnitTest (Jan 10, 2019 3:44:31 PM)</a> &gt; <a href="../../index.html" class="el_group">JUnitTest</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.diviso.JunitTest.params</a> &gt; <span class="el_source">ParameterizedCustomAggregatorsAggregatedWithTest.java</span></div><h1>ParameterizedCustomAggregatorsAggregatedWithTest.java</h1><pre class="source lang-java linenums">package com.diviso.JunitTest.params;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.aggregator.AggregateWith;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import com.diviso.JunitTest.CSVtoPerson;
+import com.diviso.JunitTest.Person;
+import com.diviso.JunitTest.PersonCustomAggregator;
+
+<span class="fc" id="L14">class ParameterizedCustomAggregatorsAggregatedWithTest {</span>
+
+	@ParameterizedTest
+	@CsvSource({ &quot;jhon,doe,M,1990-02-21&quot;, &quot;jane,doe,F,1990-03-25&quot; })
+	void testAggregationWithAggregatedWith(@AggregateWith(PersonCustomAggregator.class) Person person) {
+
+<span class="fc" id="L20">		assertEquals(&quot;doe&quot;, person.getLastName());</span>
+<span class="fc" id="L21">		assertEquals(1990, person.getDob().getYear());</span>
+<span class="fc" id="L22">	}</span>
+
+	@ParameterizedTest
+	@CsvSource({ &quot;jhon,doe,M,1990-02-21&quot;, &quot;jane,doe,F,1990-03-25&quot; })
+	void customAggregationWithAnnotation(@CSVtoPerson Person person) {
+
+<span class="fc" id="L28">		assertEquals(&quot;doe&quot;, person.getLastName());</span>
+<span class="fc" id="L29">		assertEquals(1990, person.getDob().getYear());</span>
+<span class="fc" id="L30">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>JUnitTest (Jan 10, 2019 3:44:31 PM)</div></body></html>

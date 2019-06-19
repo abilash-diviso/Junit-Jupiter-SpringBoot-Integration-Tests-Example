@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ParallelExecutionTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">JUnitTest (Jan 10, 2019 3:44:31 PM)</a> &gt; <a href="../../index.html" class="el_group">JUnitTest</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.diviso.JunitTest</a> &gt; <span class="el_source">ParallelExecutionTest.java</span></div><h1>ParallelExecutionTest.java</h1><pre class="source lang-java linenums">package com.diviso.JunitTest;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Properties;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.api.parallel.ResourceAccessMode;
+import org.junit.jupiter.api.parallel.ResourceLock;
+
+@Execution(ExecutionMode.CONCURRENT)
+<span class="fc" id="L16">class ParallelExecutionTest {</span>
+
+	private Properties backup;
+
+	@BeforeEach
+	void backup() {
+
+<span class="fc" id="L23">		backup = new Properties();</span>
+<span class="fc" id="L24">		backup.putAll(System.getProperties());</span>
+
+<span class="fc" id="L26">	}</span>
+
+	@AfterEach
+	void restore() {
+<span class="fc" id="L30">		System.setProperties(backup);</span>
+<span class="fc" id="L31">	}</span>
+
+	@Test
+	@ResourceLock(mode = ResourceAccessMode.READ, value = &quot;SYSTEM_PROPERTIES&quot;)
+	void customPropertyIsNotSetByDefault() {
+		/*
+		 * try { Thread.sleep(10000l); } catch (InterruptedException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 */
+<span class="fc bfc" id="L40" title="All 2 branches covered.">		for (int i = 0; i &lt; 300; i++)</span>
+<span class="fc" id="L41">			System.out.println(&quot;1---&gt;&quot;);</span>
+
+<span class="fc" id="L43">		assertNull(System.getProperty(&quot;my.prop&quot;));</span>
+<span class="fc" id="L44">		System.out.println(&quot;Properties are &quot; + System.getProperty(&quot;SYSTEM_PROPERTIES&quot;));</span>
+<span class="fc" id="L45">	}</span>
+
+	@Test
+	@ResourceLock(mode = ResourceAccessMode.READ_WRITE, value = &quot;SYSTEM_PROPERTIES&quot;)
+	void canSetCustomPropertyToFoo() {
+		/*
+		 * try { Thread.sleep(10000l); } catch (InterruptedException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 */
+<span class="fc bfc" id="L54" title="All 2 branches covered.">		for (int i = 0; i &lt; 300; i++)</span>
+<span class="fc" id="L55">			System.out.println(&quot;2---&gt;&quot;);</span>
+
+<span class="fc" id="L57">		System.setProperty(&quot;my.prop&quot;, &quot;foo&quot;);</span>
+<span class="fc" id="L58">		assertEquals(&quot;foo&quot;, System.getProperty(&quot;my.prop&quot;));</span>
+<span class="fc" id="L59">	}</span>
+
+	@Test
+	@ResourceLock(mode = ResourceAccessMode.READ_WRITE, value = &quot;SYSTEM_PROPERTIES&quot;)
+	void canSetCustomPropertyToBar() {
+		/*
+		 * try { Thread.sleep(10000l); } catch (InterruptedException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 */
+
+<span class="fc bfc" id="L69" title="All 2 branches covered.">		for (int i = 0; i &lt; 300; i++)</span>
+<span class="fc" id="L70">			System.out.println(&quot;3---&gt;&quot;);</span>
+
+<span class="fc" id="L72">		System.setProperty(&quot;my.prop&quot;, &quot;bar&quot;);</span>
+<span class="fc" id="L73">		assertEquals(&quot;bar&quot;, System.getProperty(&quot;my.prop&quot;));</span>
+<span class="fc" id="L74">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>JUnitTest (Jan 10, 2019 3:44:31 PM)</div></body></html>

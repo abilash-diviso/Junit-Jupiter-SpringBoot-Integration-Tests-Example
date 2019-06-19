@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ParameterizedMethodSourceTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">JUnitTest (Jan 10, 2019 3:44:31 PM)</a> &gt; <a href="../../index.html" class="el_group">JUnitTest</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.diviso.JunitTest.params</a> &gt; <span class="el_source">ParameterizedMethodSourceTest.java</span></div><h1>ParameterizedMethodSourceTest.java</h1><pre class="source lang-java linenums">package com.diviso.JunitTest.params;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+<span class="fc" id="L16">public class ParameterizedMethodSourceTest {</span>
+
+	@ParameterizedTest
+	@MethodSource(&quot;stringProvider&quot;)
+	void testWithSimpleMethodSource(String argument) {
+
+<span class="fc" id="L22">		assertNotNull(argument);</span>
+<span class="fc" id="L23">	}</span>
+
+	static Stream&lt;String&gt; stringProvider() {
+<span class="fc" id="L26">		return Stream.of(&quot;foo&quot;, &quot;bar&quot;);</span>
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	void testWithSimpleMethodSourceHavingNoValue(String argument) {
+<span class="fc" id="L32">		assertNotNull(argument);</span>
+<span class="fc" id="L33">	}</span>
+
+	static Stream&lt;String&gt; testWithSimpleMethodSourceHavingNoValue() {
+<span class="fc" id="L36">		return Stream.of(&quot;zab&quot;, &quot;baz&quot;);</span>
+	}
+
+	@ParameterizedTest
+	@MethodSource(&quot;range&quot;)
+	void testWithRangeMethodSource(int argument) {
+
+<span class="fc" id="L43">		assertNotEquals(9, argument);</span>
+
+<span class="fc" id="L45">	}</span>
+
+	static IntStream range() {
+<span class="fc" id="L48">		return IntStream.range(0, 20).skip(10);</span>
+	}
+
+	@ParameterizedTest
+	@MethodSource(&quot;stringIntAndListProvider&quot;)
+	void testWithMultiArgMethodSource(String str, int num, java.util.List&lt;String&gt; list) {
+<span class="fc" id="L54">		assertEquals(3, str.length());</span>
+<span class="pc bpc" id="L55" title="3 of 4 branches missed.">		assertTrue(num &gt;= 1 || num &lt;= 2);</span>
+<span class="fc" id="L56">		assertEquals(2, list.size());</span>
+<span class="fc" id="L57">	}</span>
+
+	static Stream&lt;Arguments&gt; stringIntAndListProvider() {
+<span class="fc" id="L60">		return Stream.of(Arguments.arguments(&quot;foo&quot;, 1, Arrays.asList(&quot;x&quot;, &quot;y&quot;)),</span>
+<span class="fc" id="L61">				Arguments.arguments(&quot;bar&quot;, 2, Arrays.asList(&quot;p&quot;, &quot;q&quot;))</span>
+
+		);
+	}
+	
+	
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>JUnitTest (Jan 10, 2019 3:44:31 PM)</div></body></html>

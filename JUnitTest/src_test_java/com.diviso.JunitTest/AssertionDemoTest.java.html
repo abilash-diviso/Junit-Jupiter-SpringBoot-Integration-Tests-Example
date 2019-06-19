@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AssertionDemoTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">JUnitTest (Jan 10, 2019 3:44:31 PM)</a> &gt; <a href="../../index.html" class="el_group">JUnitTest</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.diviso.JunitTest</a> &gt; <span class="el_source">AssertionDemoTest.java</span></div><h1>AssertionDemoTest.java</h1><pre class="source lang-java linenums">package com.diviso.JunitTest;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Disabled;
+
+import static java.time.Duration.ofMinutes;
+import static java.time.Duration.ofMillis;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+@SuppressWarnings(&quot;null&quot;)
+@DisplayName(&quot;Assertion tests &quot;)
+<span class="fc" id="L14">class AssertionDemoTest {</span>
+
+	@Test
+	void standardAssertions() {
+
+<span class="fc" id="L19">		assertEquals(30, 15 + 15);</span>
+<span class="fc" id="L20">		assertEquals(20, 20, &quot;Message Optional&quot;);</span>
+<span class="pc" id="L21">		assertTrue('y' &lt; 'z', () -&gt; &quot;Assertion messages can be lazily evaluated -- &quot;);</span>
+
+<span class="fc" id="L23">	}</span>
+
+	// In a grouped assertion all assertions are executed, and any
+	// failures will be reported together.
+	@Test
+	void groupedAssertions() {
+
+<span class="fc" id="L30">		int age = 23;</span>
+<span class="fc" id="L31">		String lastName = &quot;maya&quot;;</span>
+<span class="fc" id="L32">		assertAll(&quot;Person&quot;,</span>
+
+<span class="fc" id="L34">				() -&gt; {</span>
+<span class="fc" id="L35">					String firstName = &quot;Peter&quot;;</span>
+<span class="fc" id="L36">					assertEquals(&quot;Peter&quot;, firstName);</span>
+<span class="fc" id="L37">				}, () -&gt; assertEquals(&quot;maya&quot;, lastName), () -&gt; assertEquals(23, age)</span>
+
+		);
+
+<span class="fc" id="L41">	}</span>
+
+	@Test
+	void dependentAssertions() {
+
+<span class="fc" id="L46">		assertAll(&quot;Properties&quot;,</span>
+
+<span class="fc" id="L48">				() -&gt; {</span>
+<span class="fc" id="L49">					String firstName = &quot;rafi&quot;;</span>
+<span class="fc" id="L50">					assertNotNull(firstName);</span>
+					// Executed only if the previous assertion is valid.
+
+<span class="fc" id="L53">					assertAll(&quot;firstName&quot;, () -&gt; assertTrue(firstName.startsWith(&quot;r&quot;)),</span>
+<span class="fc" id="L54">							() -&gt; assertTrue(firstName.endsWith(&quot;i&quot;)));</span>
+					// Executed only if the previous assertion is valid.
+<span class="fc" id="L56">					assertTrue(10 &lt; 20);</span>
+
+<span class="fc" id="L58">				},</span>
+
+				// Grouped assertion, so processed independently
+				// of results of first name assertions.
+<span class="fc" id="L62">				() -&gt; {</span>
+<span class="fc" id="L63">					String lastName = &quot;karthikeyan&quot;;</span>
+<span class="fc" id="L64">					assertNotNull(lastName);</span>
+					// Executed only if the previous assertion is valid.
+
+<span class="fc" id="L67">					assertAll(() -&gt; assertTrue(lastName.startsWith(&quot;k&quot;)), () -&gt; assertTrue(lastName.endsWith(&quot;n&quot;)));</span>
+
+<span class="fc" id="L69">				}</span>
+
+		);
+
+<span class="fc" id="L73">	}</span>
+
+	@Test
+	void exceptionTesting() {
+<span class="fc" id="L77">		String value = null;</span>
+<span class="fc" id="L78">		String[] values= {};</span>
+<span class="fc" id="L79">		assertAll(&quot;Exceptions&quot;,</span>
+
+<span class="fc" id="L81">				() -&gt; assertThrows(NullPointerException.class,</span>
+<span class="pc" id="L82">						() -&gt; value.length()),</span>
+<span class="fc" id="L83">				() -&gt; assertThrows(ArrayIndexOutOfBoundsException.class, </span>
+<span class="pc" id="L84">						() -&gt; values[0].length())</span>
+
+		);
+<span class="fc" id="L87">	}</span>
+
+	@Test
+	void timeoutNotExceeded() {
+		
+<span class="fc" id="L92">		assertTimeout(ofMinutes(2), ()-&gt;{</span>
+			
+<span class="fc" id="L94">		int sum=10+30;</span>
+<span class="fc" id="L95">		System.out.println(&quot;Sum is &quot;+sum);</span>
+		
+<span class="fc" id="L97">		});</span>
+		
+<span class="fc" id="L99">	}</span>
+	
+	@Test
+	void timeoutNotExceededWithResult() {
+		
+		
+<span class="fc" id="L105">		String result=assertTimeout(ofMinutes(1), ()-&gt;{</span>
+			
+<span class="fc" id="L107">			return &quot;result&quot;;</span>
+		});
+<span class="fc" id="L109">		assertEquals(&quot;result&quot;, result);</span>
+<span class="fc" id="L110">	}</span>
+	
+	@Test
+	void timeoutNotExceededWithMethod() {
+		
+<span class="fc" id="L115">		String result=assertTimeout(ofMinutes(2), AssertionDemoTest::greeting);</span>
+<span class="fc" id="L116">		assertEquals(&quot;Hello, World!&quot;, result);</span>
+		
+<span class="fc" id="L118">	}</span>
+	
+	@Test
+	@Disabled
+	void timeoutExceeded() {
+		
+<span class="nc" id="L124">		assertTimeout(ofMillis(10), ()-&gt; Thread.sleep(100));</span>
+<span class="nc" id="L125">	}</span>
+	
+	@Test
+	@Disabled
+	void timeoutExceededPreemptiveTermination() {
+		
+		
+<span class="nc" id="L132">		assertTimeoutPreemptively(ofMillis(10), ()-&gt;Thread.sleep(100));</span>
+<span class="nc" id="L133">	}</span>
+	
+	private static String greeting() {
+<span class="fc" id="L136">        return &quot;Hello, World!&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>JUnitTest (Jan 10, 2019 3:44:31 PM)</div></body></html>

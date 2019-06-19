@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>NestedTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">JUnitTest (Jan 10, 2019 3:44:31 PM)</a> &gt; <a href="../../index.html" class="el_group">JUnitTest</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.diviso.JunitTest</a> &gt; <span class="el_source">NestedTest.java</span></div><h1>NestedTest.java</h1><pre class="source lang-java linenums">package com.diviso.JunitTest;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.EmptyStackException;
+import java.util.Stack;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+
+<span class="fc" id="L15">class NestedTest {</span>
+
+	Stack&lt;String&gt; stack;
+
+	@Test
+	@DisplayName(&quot;is instantiated with new Stack()&quot;)
+	void isInstantiatedWithNew() {
+
+<span class="fc" id="L23">		stack = new Stack&lt;&gt;();</span>
+
+<span class="fc" id="L25">	}</span>
+
+	@Nested
+	@DisplayName(&quot;when new&quot;)
+	/* If wanted to use @BeforeAll and @AfterAll */
+	/* @TestInstance(Lifecycle.PER_CLASS) */
+<span class="fc" id="L31">	class whenNew {</span>
+
+		@BeforeEach
+		@DisplayName(&quot;Instantiate New &quot;)
+		void instantiateStack() {
+<span class="fc" id="L36">			stack = new Stack&lt;&gt;();</span>
+<span class="fc" id="L37">		}</span>
+
+		@Test
+		@DisplayName(&quot;Is empty stack &quot;)
+		void isEmpty() {
+<span class="fc" id="L42">			assertTrue(stack.isEmpty());</span>
+
+<span class="fc" id="L44">		}</span>
+
+		@Test
+		@DisplayName(&quot;throws exception when popped&quot;)
+		void throwsExceptionWhenPopped() {
+<span class="pc" id="L49">			assertThrows(EmptyStackException.class, () -&gt; stack.pop());</span>
+<span class="fc" id="L50">		}</span>
+
+		void throwsExceptionWhenPeeked() {
+<span class="nc" id="L53">			assertThrows(EmptyStackException.class, () -&gt; stack.peek());</span>
+<span class="nc" id="L54">		}</span>
+
+		@Nested
+		@DisplayName(&quot;After pushing&quot;)
+<span class="fc" id="L58">		class AfterPushing {</span>
+
+<span class="fc" id="L60">			String element = &quot;An Element&quot;;</span>
+
+			@BeforeEach
+			@DisplayName(&quot;Pushing an element &quot;)
+			void pushAnElement() {
+<span class="fc" id="L65">				stack.push(element);</span>
+<span class="fc" id="L66">			}</span>
+
+			@Test
+			@DisplayName(&quot;Stack is not empty&quot;)
+			void isNotEmpty() {
+<span class="fc" id="L71">				assertFalse(stack.isEmpty());</span>
+<span class="fc" id="L72">			}</span>
+
+			@Test
+			@DisplayName(&quot;Return element when popped and is empty&quot;)
+			void returnElementWhenPopped() {
+<span class="fc" id="L77">				assertEquals(&quot;An Element&quot;, stack.pop());</span>
+<span class="fc" id="L78">				assertTrue(stack.isEmpty());</span>
+<span class="fc" id="L79">			}</span>
+
+			@Test
+			@DisplayName(&quot;return element when peeked and is empty false&quot;)
+			void returnElementWhenPeeked() {
+<span class="fc" id="L84">				assertEquals(&quot;An Element&quot;, stack.peek());</span>
+<span class="fc" id="L85">				assertFalse(stack.isEmpty());</span>
+<span class="fc" id="L86">			}</span>
+
+		}
+
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>JUnitTest (Jan 10, 2019 3:44:31 PM)</div></body></html>

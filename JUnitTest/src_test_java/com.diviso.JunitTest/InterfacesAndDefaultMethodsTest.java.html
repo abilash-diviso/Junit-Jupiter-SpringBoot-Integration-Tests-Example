@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>InterfacesAndDefaultMethodsTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">JUnitTest (Jan 10, 2019 3:44:31 PM)</a> &gt; <a href="../../index.html" class="el_group">JUnitTest</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.diviso.JunitTest</a> &gt; <span class="el_source">InterfacesAndDefaultMethodsTest.java</span></div><h1>InterfacesAndDefaultMethodsTest.java</h1><pre class="source lang-java linenums">package com.diviso.JunitTest;
+
+import java.util.logging.Logger;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.Test;
+
+@TestInstance(Lifecycle.PER_CLASS)
+ interface TestLifecycleLogger {
+
+<span class="fc" id="L17">	Logger log = Logger.getLogger(TestLifecycleLogger.class.getName());</span>
+
+	@BeforeAll
+	default void beforeAllTests() {
+<span class="fc" id="L21">		log.info(&quot;Before All Tests&quot;);</span>
+<span class="fc" id="L22">	}</span>
+
+	@AfterAll
+	default void afterAlltests() {
+<span class="fc" id="L26">		log.info(&quot;After All Tests&quot;);</span>
+<span class="fc" id="L27">	}</span>
+
+	@BeforeEach
+	default void beforeEach(TestInfo testInfo) {
+<span class="fc" id="L31">		log.info(() -&gt; String.format(&quot;About to execute [%s]&quot;, testInfo.getDisplayName()));</span>
+<span class="fc" id="L32">	}</span>
+
+	@AfterEach
+	default void afterEach(TestInfo testInfo) {
+<span class="fc" id="L36">		log.info(() -&gt; String.format(&quot;Finished Executing [%s]&quot;, testInfo.getDisplayName()));</span>
+<span class="fc" id="L37">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>JUnitTest (Jan 10, 2019 3:44:31 PM)</div></body></html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>BasedOnScriptsTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">JUnitTest (Jan 10, 2019 3:44:31 PM)</a> &gt; <a href="../../index.html" class="el_group">JUnitTest</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.diviso.JunitTest</a> &gt; <span class="el_source">BasedOnScriptsTest.java</span></div><h1>BasedOnScriptsTest.java</h1><pre class="source lang-java linenums">package com.diviso.JunitTest;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.LocalDate;
+
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIf;
+import org.junit.jupiter.api.condition.EnabledIf;
+
+//javascript can use any scripting languages like groovy
+<span class="fc" id="L13">class BasedOnScriptsTest {</span>
+
+	@Test
+	@EnabledIf(&quot;2*3==6&quot;)
+	void willBeExecuted() {
+<span class="fc" id="L18">	}</span>
+
+	@DisabledIf(&quot;Math.random()&lt;0.314159&quot;)
+	@RepeatedTest(10)
+	void mightNotBeExecuted() {
+<span class="fc" id="L23">		System.out.println(&quot;repeatedTest&quot;);</span>
+<span class="fc" id="L24">	}</span>
+
+	@Test
+	@EnabledIf(&quot;'CI'==systemEnvironment.get('ENV')&quot;)
+	void disabledOn32BitArchitecture() {
+<span class="nc" id="L29">		System.out.println(&quot;disabledOn32BitArchitecture&quot;);</span>
+
+<span class="nc" id="L31">	}</span>
+
+	@Test
+	@EnabledIf(value = { &quot;load('nashorn:mozilla_compat.js')&quot;, &quot;importPackage(java.time)&quot;, &quot;&quot;,
+			&quot;var today = LocalDate.now()&quot;, &quot;var tomorrow = today.plusDays(1)&quot;,
+			&quot;tomorrow.isAfter(today)&quot; }, engine = &quot;nashorn&quot;, reason = &quot;Self-fulfilling: {result}&quot;)
+	void multiLineScriptUsingNashorn() {
+<span class="fc" id="L38">		LocalDate today = LocalDate.now();</span>
+<span class="fc" id="L39">		LocalDate tomorrow = today.plusDays(1);</span>
+<span class="fc" id="L40">		assertTrue(tomorrow.isAfter(today));</span>
+<span class="fc" id="L41">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>JUnitTest (Jan 10, 2019 3:44:31 PM)</div></body></html>
